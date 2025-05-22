@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="pt-BR"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title class="fontPixo">Centro Cultural</title>
+  <link href="bootstrap.css" rel="stylesheet">
+  <link rel="icon" href="ccLogo.ico.png" type="image/x-icon">
+
+  <style>
+    /* === Estilização do cabeçalho com imagem de fundo e conteúdo centralizado === */
+    #header-bg {
+      display: flex; /* Usando flexbox para posicionar conteúdo */
+      flex-direction: column; /* Organiza em coluna (vertical) */
+      justify-content: center; /* Centraliza verticalmente */
+      align-items: center; /* Centraliza horizontalmente */
+      text-align: center; /* Centraliza o texto dentro dos elementos */
+      color: white; /* Texto branco para contraste */
+      padding: 5rem 0; /* Espaço acima e abaixo */
+      position: relative; /* Necessário para posicionar pseudo-elementos */
+      overflow: hidden; /* Evita que conteúdo ultrapasse limites */
+    }
+
+    /* === Imagem de fundo usando pseudo-elemento ::before === */
+    #header-bg::before {
+      content: "";
+      position: absolute; /* Posiciona atrás do conteúdo */
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url('https://www.guiadasemana.com.br/contentFiles/image/opt_w320h0/2017/01/VEN/97345_centro-cultural-grajau.jpg'); /* Imagem padrão */
+      background-size: cover; /* Cobre toda área */
+      background-position: center; /* Centraliza a imagem */
+      background-repeat: no-repeat; /* Sem repetição */
+      z-index: -1; /* Fica atrás do texto */
+    }
+
+    /* === Conteúdo do cabeçalho com fundo semi-transparente para melhorar leitura === */
+    .header-content {
+      position: relative; /* Mantém em frente ao ::before */
+      z-index: 1; /* Coloca na frente */
+      background-color: rgba(0, 0, 0, 0.5); /* Fundo escuro semi-transparente */
+      padding: 20px; /* Espaçamento interno */
+      border-radius: 5px; /* Bordas arredondadas */
+    }
+
+    /* === Media queries para trocar a imagem de fundo conforme o tamanho da tela === */
+    @media (min-width: 768px) {
+      #header-bg::before {
+        background-image: url('https://www.guiadasemana.com.br/contentFiles/image/opt_w768h480/2017/01/VEN/97345_centro-cultural-grajau.jpg');
+      }
+    }
+
+    @media (min-width: 1024px) {
+      #header-bg::before {
+        background-image: url('https://www.guiadasemana.com.br/contentFiles/image/opt_w1024h450/2017/01/VEN/97345_centro-cultural-grajau.jpg');
+      }
+    }
+
+    @media (min-width: 1366px) {
+      #header-bg::before {
+        background-image: url('https://www.guiadasemana.com.br/contentFiles/image/opt_w1270h540/2017/01/VEN/97345_centro-cultural-grajau.jpg');
+      }
+
+      #header-bg {
+        position: relative;
+        z-index: 0;
+      }
+    }
+
+    /* === Gradiente escuro no rodapé do cabeçalho para efeito de sombra === */
+    #header-bg::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(to top, rgb(18 18 18), rgba(0, 0, 0, 0.534));
+      z-index: 0; /* Fica entre a imagem e o texto */
+    }
+
+    /* === Overlay escuro para escurecer toda a área do cabeçalho === */
+    .header-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 28%);
+      z-index: 0; /* Entre o ::before e o conteúdo */
+    }
+
+    /* === Garante que o conteúdo (texto, etc) fique acima da overlay === */
+    #header-bg>*:not(.header-overlay) {
+      position: relative;
+      z-index: 1;
+    }
+  </style>
+
+<style type="text/css" id="operaUserStyle"></style></head>
+
+<body id="body">
+
+  <!-- Navbar: barra de navegação -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="--bs-navbar-padding-y: 0!important;">
+    <div class="container">
+
+      <!-- Logo ou marca do site -->
+      <h1 class="navbar-brand" style="
+            font-family: 'Pixo Reto';
+            font-size: 2.5rem!important;
+            --bs-navbar-padding-y: 0;
+            padding-bottom: 0 !important;
+            padding-top: 0!important;">
+        CC
+      </h1>
+
+      <!-- Botão para abrir menu em telas pequenas -->
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <!-- Itens do menu -->
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="sobre.html">Sobre</a></li>
+          <li class="nav-item"><a class="nav-link" href="aulas.html">Comunidade</a></li>
+          <li class="nav-item"><a class="nav-link" href="eventos.html">Eventos</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Cabeçalho principal com fundo e texto centralizado -->
+  <header class="text-white text-center py-5" id="header-bg">
+    <!-- Overlay escuro para escurecer a imagem -->
+    <div class="header-overlay"></div>
+
+    <!-- Títulos do cabeçalho -->
+    <h1 class="fontPixo" style="font-size: 10.5rem !important;">Centro Cultural</h1>
+    <h2 class="fontPixo" style="font-size: 4.5rem !important;">Grajáu</h2>
+  </header>
+
+  <!-- Seção de conteúdo principal -->
+  <section class="mt-5">
+    <div class="container mt-5">
+      <div class="row align-items-center">
+
+        <!-- Coluna com texto -->
+<div class="col-md-6">
+  <h2>CONHEÇA O CENTRO</h2>
+  <p>
+    <br>
+    O Centro Cultural Grajaú, localizado na zona sul de São Paulo, é um importante espaço dedicado à arte, cultura e cidadania. Inaugurado oficialmente em 2008 com a entrega da primeira fase do Calçadão Cultural do Grajaú, o centro foi criado para fortalecer a identidade cultural das periferias. Em julho de 2016, a Casa de Cultura do Grajaú recebeu o título de Centro Cultural Grajaú, consolidando-se como um equipamento cultural de referência na região.
+
+O centro oferece uma ampla programação gratuita que inclui oficinas, apresentações musicais, espetáculos teatrais, exposições, rodas de conversa e outras atividades voltadas para todas as idades.
+  </p>
+</div>
+
+        <!-- Coluna com imagem -->
+        <div class="col-md-6 text-center">
+  <img src="https://i.imgur.com/3cJIWTQ.png" class="img-fluid" alt="Foto do local">
+</div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Outro bloco de texto com espaçamento -->
+  <div class="container">
+    <p class="lead py-5">
+      Mais do que um ponto de cultura, o Centro Cultural Grajaú é um símbolo de resistência e valorização da produção artística local. Ele funciona como uma ponte entre a comunidade e as diversas formas de expressão, promovendo inclusão, representatividade e acesso à cultura para todos.
+
+Este projeto tem como objetivo divulgar e ampliar a visibilidade desse espaço tão importante para a região, facilitando o acesso às informações sobre sua história, eventos e formas de participação. Ao conectar pessoas, ideias e manifestações artísticas, o Centro Cultural Grajaú reafirma o papel da cultura como ferramenta de transformação social.
+    </p>
+  </div>
+
+  <!-- Rodapé -->
+  <footer class="bg-dark text-white text-center py-3 mt-5">
+    <p style="
+          font-family: 'Pixo Reto';
+          font-size: 1.5rem!important;
+          --bs-navbar-padding-y: 0;
+          padding-bottom: 0 !important;
+          padding-top: 0!important;
+          margin-bottom: 0!important;">
+      © 2025 - Centro Cultural Grajáu
+    </p>
+  </footer>
+
+  <script src="bootstrap.js"></script>
+
+
+
+
+</body></html>

@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <!-- Meta e título -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Aulas</title>
+  <link rel="icon" href="ccLogo.ico.png" type="image/x-icon">
+
+  <!-- CSS do Bootstrap -->
+  <link href="bootstrap.css" rel="stylesheet">
+
+  <!-- EmailJS -->
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+
+  <!-- Estilos personalizados -->
+  <style>
+    /* Corpo da página */
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #111;
+      color: #fff;
+    }
+
+    /* Grid das aulas */
+    .container-aulas {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 30px;
+      padding: 40px 20px;
+      max-width: 1000px;
+      margin: auto;
+    }
+
+    /* Estilo de cada aula */
+    .aula {
+      position: relative;
+      border-radius: 12px;
+      overflow: hidden;
+      min-height: 250px;
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      align-items: flex-end;
+    }
+
+    .aula-overlay {
+      background: rgba(0, 0, 0, 0.6);
+      padding: 20px;
+      width: 100%;
+    }
+
+    .aula h2 {
+      margin: 0 0 10px;
+      font-size: 2rem;
+    }
+
+    .aula p, .aula ul {
+      font-size: 1rem;
+      opacity: 0.9;
+      margin: 0;
+    }
+
+    .aula ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .aula li {
+      margin-left: 10px;
+    }
+
+    .aula button {
+      margin-top: 15px;
+      background-color: #333;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      font-size: 1rem;
+      cursor: pointer;
+      border-radius: 5px;
+      transition: background 0.3s;
+    }
+
+    .aula button:hover {
+      background-color: #555;
+    }
+
+    /* Seção de horários */
+    .aula-horarios {
+      position: relative;
+      background: transparent;
+      padding: 32px;
+      width: 40%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .aula-horarios::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      background: linear-gradient(to right, rgb(7 7 7), transparent);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .aula-horarios * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .aula-horarios strong {
+      margin-bottom: 10px;
+      font-size: 1rem;
+      color: #00e6ff;
+    }
+
+    /* Modal */
+    .modal {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background: rgba(0, 0, 0, 0.8);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+    }
+
+    .modal-content {
+      background: #222;
+      padding: 30px;
+      border-radius: 10px;
+      width: 90%;
+      max-width: 400px;
+      position: relative;
+    }
+
+    .modal-content h3 {
+      margin-top: 0;
+    }
+
+    /* Aqui a alteração para deixar os labels brancos */
+    .modal-content label {
+      display: block;
+      margin: 10px 0 5px;
+      font-size: 0.95rem;
+      color: #fff;
+    }
+
+    .modal-content input,
+    .modal-content select {
+      width: 100%;
+      padding: 8px;
+      background: #333;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+    }
+
+    .modal-content button {
+      margin-top: 15px;
+      background-color: #00bcd4;
+      color: #fff;
+      border: none;
+      padding: 10px;
+      font-size: 1rem;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .modal-content button[type="submit"] {
+      display: block;
+      margin: 20px auto 0 auto;
+    }
+
+    .close-modal {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #999;
+    }
+
+    .close-modal:hover {
+      color: #fff;
+    }
+
+    /* Responsivo */
+    @media (max-width: 600px) {
+      .aula h2 {
+        font-size: 1.5rem;
+      }
+    }
+
+    /* Grade de botões de horários */
+    .grade-horarios {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .botao-horario {
+      background: #333;
+      border: 1px solid #555;
+      color: #fff;
+      padding: 8px 12px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: all 0.2s ease;
+    }
+
+    .botao-horario:hover,
+    .botao-horario.ativo {
+      background-color: #00bcd4;
+      border-color: #00bcd4;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="--bs-navbar-padding-y: 0!important;">
+    <div class="container">
+      <h1 class="navbar-brand" style="font-family: 'Pixo Reto'; font-size: 2.5rem!important;">CC</h1>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="sobre.html">Sobre</a></li>
+          <li class="nav-item"><a class="nav-link" href="aulas.html">Comunidade</a></li>
+          <li class="nav-item"><a class="nav-link" href="eventos.html">Eventos</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Título da Página -->
+  <h1 style="text-align:center; margin-top: 30px;">Comunidade de Aprendizado</h1>
+
+  <!-- Lista de Aulas -->
+  <div class="container-aulas">
+    <div class="aula" style="background-image: url('pintura.jpg')">
+      <div class="aula-overlay">
+        <h2>Pintura</h2>
+        <p>Aprenda técnicas de pintura com diversos materiais e estilos.</p>
+        <button onclick="abrirModal('Pintura')">Inscrever-se</button>
+      </div>
+    </div>
+
+    <div class="aula" style="background-image: url('rpg.jpg')">
+      <div class="aula-overlay">
+        <h2>RPG</h2>
+        <p>Entre em aventuras e desenvolva sua criatividade com jogos de RPG.</p>
+        <button onclick="abrirModal('RPG')">Inscrever-se</button>
+      </div>
+    </div>
+
+    <div class="aula" style="background-image: url('luta.jpg')">
+      <div class="aula-overlay">
+        <h2>Luta</h2>
+        <p>Aprenda fundamentos de artes marciais e técnicas de autodefesa.</p>
+        <button onclick="abrirModal('Luta')">Inscrever-se</button>
+      </div>
+    </div>
+
+    <div class="aula" style="background-image: url('danca.jpg')">
+      <div class="aula-overlay">
+        <h2>Dança</h2>
+        <p>Explore vários estilos de dança e melhore sua coordenação e ritmo.</p>
+        <button onclick="abrirModal('Dança')">Inscrever-se</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de Inscrição -->
+  <div class="modal" id="modal-inscricao">
+    <div class="modal-content">
+      <span class="close-modal" onclick="fecharModal()">&times;</span>
+      <h3>Inscrição na Aula</h3>
+      <form id="form-inscricao">
+        <input type="hidden" id="aulaSelecionada" name="aula" required>
+
+        <label for="nome">Seu nome:</label>
+        <input type="text" id="nome" name="from_name" required>
+
+        <label for="email">Seu e-mail:</label>
+        <input type="email" id="email" name="user_email" required>
+
+        <label>Escolha uma data e horário:</label>
+        <div id="datas-horarios" class="grade-horarios"></div>
+
+        <!-- Campos ocultos para enviar via EmailJS -->
+        <input type="hidden" id="data" name="data" required>
+        <input type="hidden" id="hora" name="hora" required>
+
+        <button type="submit">Confirmar Inscrição</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Rodapé -->
+  <footer class="bg-dark text-white text-center py-3">
+    <p style="font-family: 'Pixo Reto'; font-size: 1.5rem!important; margin: 0;">© 2025 - Centro Cultural Grajáu</p>
+  </footer>
+
+  <!-- Script principal -->
+  <script>
+    // Inicializa o EmailJS
+    emailjs.init("aSgKzZAnuRxEpyQF_");
+
+    const modal = document.getElementById("modal-inscricao");
+    const form = document.getElementById("form-inscricao");
+    const aulaInput = document.getElementById("aulaSelecionada");
+
+    // Dados de horários por aula
+    const horariosPorAula = {
+      "Pintura": [
+        { data: "2025-05-19", hora: "08:00" },
+        { data: "2025-05-22", hora: "14:30" },
+        { data: "2025-05-25", hora: "13:30" }
+      ],
+      "RPG": [
+        { data: "2025-05-20", hora: "10:00" },
+        { data: "2025-05-23", hora: "15:00" },
+        { data: "2025-05-26", hora: "09:00" }
+      ],
+      "Luta": [
+        { data: "2025-05-21", hora: "08:30" },
+        { data: "2025-05-24", hora: "11:00" },
+        { data: "2025-05-27", hora: "16:00" }
+      ],
+      "Dança": [
+        { data: "2025-05-19", hora: "13:00" },
+        { data: "2025-05-22", hora: "09:30" },
+        { data: "2025-05-25", hora: "15:00" }
+      ]
+    };
+
+    // Abre modal e exibe horários
+    function abrirModal(aula) {
+      aulaInput.value = aula;
+      modal.style.display = "flex";
+
+      const dataContainer = document.getElementById("datas-horarios");
+      dataContainer.innerHTML = "";
+
+      const opcoes = horariosPorAula[aula];
+
+      opcoes.forEach(({ data, hora }) => {
+        const botao = document.createElement("button");
+        const [ano, mes, dia] = data.split("-");
+        const dataFormatada = `${dia}/${mes}/${ano}`;
+        botao.textContent = `${dataFormatada} - ${hora}`;
+        botao.className = "botao-horario";
+        botao.type = "button";
+        botao.onclick = () => {
+          document.getElementById("data").value = data;
+          document.getElementById("hora").value = hora;
+
+          // Marca o botão como ativo
+          document.querySelectorAll(".botao-horario").forEach(btn => btn.classList.remove("ativo"));
+          botao.classList.add("ativo");
+        };
+        dataContainer.appendChild(botao);
+      });
+    }
+
+    // Fecha o modal
+    function fecharModal() {
+      modal.style.display = "none";
+    }
+
+    // Envia o formulário com EmailJS
+    form.addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      // Verifica se um horário foi selecionado
+      const dataSelecionada = document.getElementById("data").value;
+      const horaSelecionada = document.getElementById("hora").value;
+      if (!dataSelecionada || !horaSelecionada) {
+        alert("Por favor, selecione uma data e horário.");
+        return;
+      }
+
+      emailjs.sendForm("55281610", "template_h3rt6zm", this)
+        .then(() => {
+          alert("Inscrição realizada com sucesso! Verifique seu e-mail.");
+          form.reset();
+          fecharModal();
+        }, (error) => {
+          alert("Erro ao enviar. Tente novamente.");
+          console.error(error);
+        });
+    });
+  </script>
+</body>
+</html>

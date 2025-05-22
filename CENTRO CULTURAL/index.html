@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title class="fontPixo">Centro Cultural</title>
+  <link href="bootstrap.css" rel="stylesheet" />
+  <link rel="icon" href="ccLogo.ico.png" type="image/x-icon" />
+
+  <style>
+    /* -------------------------------
+       Navbar
+    ---------------------------------- */
+    .navbar-brand {
+      font-family: 'Pixo Reto';
+      font-size: 2.5rem !important;
+      padding: 0 !important;
+    }
+
+    .navbar {
+      --bs-navbar-padding-y: 0 !important;
+    }
+
+    /* -------------------------------
+       Header - Estilo geral
+    ---------------------------------- */
+    #header-bg {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      color: white;
+      padding: 5rem 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    #header-bg::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url('https://www.guiadasemana.com.br/contentFiles/image/opt_w320h0/2017/01/VEN/97345_centro-cultural-grajau.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      z-index: -1;
+    }
+
+    .header-content {
+      position: relative;
+      z-index: 1;
+      background-color: rgba(0, 0, 0, 0.5);
+      padding: 20px;
+      border-radius: 5px;
+    }
+
+    .header-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.28);
+      z-index: 0;
+    }
+
+    #header-bg > *:not(.header-overlay) {
+      position: relative;
+      z-index: 1;
+    }
+
+    #header-bg::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(to top, rgb(18, 18, 18), rgba(0, 0, 0, 0.534));
+      z-index: 0;
+    }
+
+    /* -------------------------------
+       Responsividade das imagens de fundo
+    ---------------------------------- */
+    @media (min-width: 768px) {
+      #header-bg::before {
+        background-image: url('https://www.guiadasemana.com.br/contentFiles/image/opt_w768h480/2017/01/VEN/97345_centro-cultural-grajau.jpg');
+      }
+    }
+
+    @media (min-width: 1024px) {
+      #header-bg::before {
+        background-image: url('https://www.guiadasemana.com.br/contentFiles/image/opt_w1024h450/2017/01/VEN/97345_centro-cultural-grajau.jpg');
+      }
+    }
+
+    @media (min-width: 1366px) {
+      #header-bg::before {
+        background-image: url('https://www.guiadasemana.com.br/contentFiles/image/opt_w1270h540/2017/01/VEN/97345_centro-cultural-grajau.jpg');
+      }
+
+      #header-bg {
+        position: relative;
+        z-index: 0;
+      }
+    }
+
+    /* -------------------------------
+       Rodapé
+    ---------------------------------- */
+    footer p {
+      font-family: 'Pixo Reto';
+      font-size: 1.5rem !important;
+      padding: 0 !important;
+      margin: 0 !important;
+    }
+  </style>
+</head>
+
+<body id="body">
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+      <h1 class="navbar-brand">CC</h1>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="sobre.html">Sobre</a></li>
+          <li class="nav-item"><a class="nav-link" href="aulas.html">Comunidade</a></li>
+          <li class="nav-item"><a class="nav-link" href="eventos.html">Eventos</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Header com imagem de fundo -->
+  <header class="text-white text-center py-5" id="header-bg">
+    <div class="header-overlay"></div>
+    <h1 class="fontPixo" style="font-size: 15.5rem !important;">CC</h1>
+    <h2 class="fontPixo" style="font-size: 4.5rem !important;">Grajáu</h2>
+  </header>
+
+  <!-- Conteúdo principal -->
+  <div class="container mt-5 py-5">
+    <h1> - </h1>
+    <p class="lead mt-5 py-5">
+      Um Aqui, celebramos a arte, a cultura e a cidadania como ferramentas para transformar vidas e fortalecer nossa comunidade na zona sul de São Paulo. Nosso espaço oferece uma diversidade de atividades gratuitas, que vão desde oficinas criativas até apresentações musicais, espetáculos teatrais e exposições, pensadas para todas as idades e gostos.
+
+Convidamos você a navegar pelo nosso site, conhecer a programação completa e se inscrever nas atividades que mais te interessam. Venha fazer parte dessa história de valorização cultural e participação comunitária. Sua presença é fundamental para manter viva a cultura da nossa região!
+    </p>
+  </div>
+
+  <!-- Rodapé -->
+  <footer class="bg-dark text-white text-center py-3">
+    <p>© 2025 - Centro Cultural Grajáu</p>
+  </footer>
+
+  <script src="bootstrap.js"></script>
+</body>
+
+</html>
